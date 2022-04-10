@@ -3,11 +3,21 @@ from dataclasses import replace
 from pathlib import Path
 
 text = """
-ویکی‌پدیای فارسی نام یکی از دانشنامه‌های فارسی‌زبان در اینترنت و یکی از نسخه‌های ویکی‌پدیا، از پروژه‌های بنیاد ویکی‌مدیا است . میرفت می‌رفت می رفت ویکی‌پدیا پروژهٔ بزرگی است که هدف آن ساخت دانشنامه‌هایی با محتوای آزاد با مشارکت همگان و به همهٔ زبان‌های ممکن است.
-این دانشنامهٔ فارسی ۱۸ سال پیش (دقیقاً در ۲۸ آذر ۱۳۸۲ / ۱۹ دسامبر ۲۰۰۳) فعالیت خود را آغاز کرد و حجم آن در حدود یک‌سالگی به ۱۰۰۰ مقاله، در دوسالگی (بهمن ۱۳۸۴) -با داشتن رتبهٔ سی‌وهشتم در میان ویکی‌پدیاها- به ۱۰هزار مقاله، و در هفت‌سالگی (شهریور ۱۳۸۹) به ۱۰۰هزار نوشتار رسید . ویکی‌پدیای فارسی هم‌اکنون (۱۰ فروردین ۱۴۰۱ خورشیدی برابر با ۳۰ مارس ۲۰۲۲ میلادی) ۸۹۲٬۶۳۹ نوشتار دارد.[۳]
-در اسفند ۱۳۹۹ (مارس ۲۰۲۱) ویکی‌پدیای فارسی با ۱٬۱۰۷٬۵۵۰ کاربرِ ثبت‌نام‌کرده، در ردهٔ شانزدهم ویکی‌پدیاها، از لحاظ شمار کاربرانِ فعال در ردهٔ یازدهم و از جهت شمار مدیران (۳۷ مدیر) در ردهٔ هجدهم جای دارد .[۳] ویکی‌پدیای فارسی تا پایان فوریه ۲۰۲۱، دارای ۴۱۰ مقاله خوب و ۱۹۲ مقاله برگزیده است.
- می‌نوشتم و کار انجام میدادم در این حین‌می‌کرد کار انجام شود‌و خوب انجام شود 
 می‌رفت
+می‌خورد
+میرفت
+نمیرفت
+داشتندمیرفتند
+میآجیدم
+داشتیممیخوردیم
+داشتیم می خوردیم
+داشتیمیخوردی
+داشتند 
+آراسته است
+آراسته ام
+آراسته ای
+آراستهاست
+داشتهاست میآراستهاست
 """
 
 HALF_SPACE = '\u200c'
@@ -25,24 +35,43 @@ all_verbs = Path.read_text(
 def remove_half_space(text):
     return text.replace(HALF_SPACE, ' ')
 
+def add_extra_space(text):
+    return text.replace('\n', ' \n ').replace('\t', ' \t ') \
+    .replace('.', ' . ').replace(',', ' , ').replace('  ',' ')
+
+def remove_double_space(text):
+    return text.replace('  ', ' ')
+
 text = remove_half_space(text)
+text = add_extra_space(text)
+
+# داشته ام می آراسته ام
+text=re.sub(f'{SPACE}(داشته){SPACE_OR_HALF}(اید|ایم|اند|ای|است|ام)',r' \1'+HALF_SPACE+r'\2 ',text)
+result = re.sub(f'{SPACE_OR_HALF}?(بودیم|بودند|بودید|بودم|بودی|بود){SPACE_OR_HALF}?',r" \1 ", text)
+text = remove_double_space(text)
 
 
 for verb in all_verbs:
 
     without_space = verb.replace(" ","")
-    without_half_space = verb.replace(HALF_SPACE,"")
-    without_both = without_space.replace(HALF_SPACE,"")
+
+    # todo: fix آ کلاه دار
+
+    # without_half_space = verb.replace(HALF_SPACE,"")
+    # without_both = without_space.replace(HALF_SPACE,"")
 
     # todo: Maybe half_space check is not necessary. Should consult with Mahdi
+    # contains = f' {verb} ' in text \
+    #     or f'{HALF_SPACE}{verb} ' in text \
+    #     or f' {verb}{HALF_SPACE}' in text \
+    #     or f'{HALF_SPACE}{verb}{HALF_SPACE}' in text \
+    #     or f' {without_space} ' in text \
+    #     or f' {without_half_space} ' in text \
+    #     or f' {without_both} ' in text 
+    
     contains = f' {verb} ' in text \
-        or f'{HALF_SPACE}{verb} ' in text \
-        or f' {verb}{HALF_SPACE}' in text \
-        or f'{HALF_SPACE}{verb}{HALF_SPACE}' in text \
-        or f' {without_space} ' in text \
-        or f' {without_half_space} ' in text \
-        or f' {without_both} ' in text 
-
+        or f' {without_space} ' in text 
+    
     if not contains:
         continue
 
@@ -60,7 +89,24 @@ for verb in all_verbs:
         result=re.sub(f'{SPACE_OR_HALF}?(نمی|می){SPACE_OR_HALF}?(.+)',
             r" \1"+HALF_SPACE+r"\2", text[start:end])
         text = text[:start] + result + text[end:]
+        text = remove_double_space(text)
+
+        result = re.sub(f'{SPACE_OR_HALF}?(داشت)(یم|ید|ند|م|ی)?{SPACE_OR_HALF}?(.+)',
+            r" \1\2 \3", text[start:end])
+        text = text[:start] + result + text[end:]
+        text = remove_double_space(text)
+
+        # may have bugs because of ? in regex
+        result = re.sub(f'{SPACE_OR_HALF}?(اید|ایم|اند|ام|ای|است){SPACE_OR_HALF}',
+            HALF_SPACE+r"\1 ", text[start:end])
+        text = text[:start] + result + text[end:]
+        text = remove_double_space(text)
+
+        result = re.sub(f'{SPACE_OR_HALF}?(بودیم|بودند|بودید|بودم|بودی|بود){SPACE_OR_HALF}?',
+            r" \1 ", text[start:end])
+        text = text[:start] + result + text[end:]
+        text = remove_double_space(text)
 
 
-        
+
 to_file(str(text))
