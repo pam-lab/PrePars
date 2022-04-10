@@ -18,12 +18,19 @@ text = """
 آراسته ای
 آراستهاست
 داشتهاست میآراستهاست
+نمیآراسته بوده ام
+می آزرده بوده اند
+خواهمخورد
 """
 
 HALF_SPACE = '\u200c'
 SPACE = ' '
 SPACE_OR_HALF = f"[{SPACE}{HALF_SPACE}]"
 WORD_BOUNDARY = f"[{SPACE}\W{HALF_SPACE}]"
+
+log_file = Path('output.txt')
+if log_file.exists():
+    log_file.unlink()
 
 def to_file(value):
     with open('output.txt', 'a+') as f: 
@@ -45,9 +52,14 @@ def remove_double_space(text):
 text = remove_half_space(text)
 text = add_extra_space(text)
 
-# داشته ام می آراسته ام
 text=re.sub(f'{SPACE}(داشته){SPACE_OR_HALF}(اید|ایم|اند|ای|است|ام)',r' \1'+HALF_SPACE+r'\2 ',text)
-result = re.sub(f'{SPACE_OR_HALF}?(بودیم|بودند|بودید|بودم|بودی|بود){SPACE_OR_HALF}?',r" \1 ", text)
+text = re.sub(f'{SPACE_OR_HALF}?(بوده)(ایم|اید|اند|ای|است|ام)',r" \1"+HALF_SPACE+r"\2 ", text)
+text = re.sub(f'{SPACE_OR_HALF}(بودیم|بودند|بودید|بودم|بودی|بود){SPACE_OR_HALF}',r" \1 ", text)
+text = re.sub(f'{SPACE_OR_HALF}?(باشم|باشی|باشد|باشیم|باشید|باشند){SPACE_OR_HALF}?',r" \1 ", text)
+text = re.sub(f'{SPACE_OR_HALF}?(داریم|دارند|دارید|داری|دارد|دارم){SPACE_OR_HALF}?',r" \1 ", text)
+text = re.sub(f'{SPACE_OR_HALF}?(داشتم|داشتی|داشتیم|داشتید|داشتند|داشت){SPACE_OR_HALF}?',r" \1 ", text)
+text = re.sub(f'{SPACE_OR_HALF}?(ن)?(خواهم|خواهی|خواهد|خواهیم|خواهید|خواهند){SPACE_OR_HALF}?',r" \1\2 ", text)
+
 text = remove_double_space(text)
 
 
@@ -91,7 +103,7 @@ for verb in all_verbs:
         text = text[:start] + result + text[end:]
         text = remove_double_space(text)
 
-        result = re.sub(f'{SPACE_OR_HALF}?(داشت)(یم|ید|ند|م|ی)?{SPACE_OR_HALF}?(.+)',
+        result = re.sub(f'{SPACE_OR_HALF}(داشت)(یم|ید|ند|م|ی)?{SPACE_OR_HALF}(.+)',
             r" \1\2 \3", text[start:end])
         text = text[:start] + result + text[end:]
         text = remove_double_space(text)
@@ -102,7 +114,7 @@ for verb in all_verbs:
         text = text[:start] + result + text[end:]
         text = remove_double_space(text)
 
-        result = re.sub(f'{SPACE_OR_HALF}?(بودیم|بودند|بودید|بودم|بودی|بود){SPACE_OR_HALF}?',
+        result = re.sub(f'{SPACE_OR_HALF}(بودیم|بودند|بودید|بودم|بودی|بود){SPACE_OR_HALF}',
             r" \1 ", text[start:end])
         text = text[:start] + result + text[end:]
         text = remove_double_space(text)
