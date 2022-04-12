@@ -5,4 +5,4 @@
 # gdown --id 1aIDGD3hHjDyWZ5i8vmgtMxRAzSxGFCWY 
 unzip -o PVC.zip
 cd PVC/Data && unzip -o '*.zip'
-cd PVC/Data/TXT && awk -F '@' 'BEGIN { OFS="," }{print $1,$8,$9,$10}' verb.txt > all_verbs.txt
+cd TXT && awk -F '@' 'BEGIN { OFS="," }{print $1,$8,$9,$10}' verb.txt > all_verbs.txt
