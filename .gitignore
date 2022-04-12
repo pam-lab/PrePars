@@ -1,5 +1,5 @@
-venv/*
-PVC/*
-*.txt
+/venv/*
+/PVC/*
+output.txt
 
-!PVC/DATA/TXT/all_verbs.txt
+!PVC/Data/TXT/all_verbs.txt
