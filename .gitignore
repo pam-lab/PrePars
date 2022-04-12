@@ -1,4 +1,5 @@
-venv/
-PVC/
-PVC.zip
-output.txt
+venv/*
+PVC/*
+*.txt
+
+!PVC/DATA/TXT/all_verbs.txt
