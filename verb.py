@@ -71,9 +71,8 @@ class Verb_Processing:
 
             
             # this will match all verbs even if there is no space between characters
-            fixed_verb = verb.replace(SPACE, f"{SPACE}?")
+            fixed_verb = verb.replace(' ', f" ?")
 
-            to_file(str(verb))
             regex = f"{WORD_BOUNDARY}({fixed_verb}){WORD_BOUNDARY}"
             for item in re.finditer(regex, text):
                 start, end = item.start(),item.end()
@@ -90,8 +89,7 @@ class Verb_Processing:
                     r" \1\2 ", text[start:end])
                 text = self.apply_regex_result(text, start, end, result)
 
-                # may have bugs because of ? in regex
-                result = re.sub(f' (اید|ایم|اند|ام|ای|است)', HALF_SPACE+r"\1 ", text[start:end])
+                result = re.sub(f' +(اید|ایم|اند|ام|ای|است)', HALF_SPACE+r"\1", text[start:end])
                 text = self.apply_regex_result(text, start, end, result)
 
                 result = re.sub(f'{SPACE}(بودیم|بودند|بودید|بودم|بودی|بود){SPACE}',r" \1 ", text[start:end])
