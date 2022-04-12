@@ -6,22 +6,23 @@ samples = """
 میخورد
 می رفت
 میرفت
-نمیرفت
-داشتندمیرفتند
-میآجیدم
-داشتیممیخوردیم
-داشتیمیخوردی
-آراسته است
-نمیرفتهاست
-نرفتهاند
-آراستهاست
-داشتهاست میآراستهاست
-نمیآراسته بوده ام
-می آزرده بوده اند
-خواهمخورد
-
-رفت می رفت داشتم می رفتم
-داشتممیرفتم
+نمیرفت داشتندمیرفتند
+میآجیدم داشتیممیخوردیم
+داشتیمیخوردی آراسته است نمیرفتهاست
+نرفتهاند آراستهاست
+داشتهاست میآراستهاست داشتهاممیرفتهام
+داشتهمیرفته نمیآراسته بوده ام
+می آزرده بوده اند خواهمخورد
+رفتهبودم نمیرفتهبودیم
+داشتممیرفتهبودم
+داشتم میرفته بودم
+رفتهبودهام
+میرفتهبودهام
+داشتهایم می رفته بودهایم
+نمیروبم میروبم نمی روبم
+دارد نمی روبد
+خواهیمرفت رفتهباشد
+می رفته باشم نرفته بوده باشد
 """
 
 HALF_SPACE = '\u200c'
@@ -32,34 +33,11 @@ WORD_BOUNDARY = f"[{SPACE}\W{HALF_SPACE}]"
 
 class Verb_Processing:
         
-    def __init__(self) -> None:
-        pass
-
-    def remove_half_space(self,text):
-        return text.replace(HALF_SPACE, ' ')
-
-    def add_extra_space(self, text) -> str:
-        return text.replace('\n', ' \n ').replace('\t', ' \t ') \
-        .replace('.', ' . ').replace(',', ' , ').replace('  ',' ')
-
-    def remove_double_space(self, text) -> str:
-        return text.replace('  ', ' ')
-
+    
     def fix_verb_half_space(self, text):
 
         all_verbs = Path.read_text(Path.cwd() / 'PVC/Data/TXT/all_verbs.txt').split('\n')
-
-        # text = self.remove_half_space(text)
-        # text = self.add_extra_space(text)
-
-        # text = re.sub(f' (داشته) ?(اید|ایم|اند|ای|است|ام)',r' \1'+HALF_SPACE+r'\2 ',text)
-        # text = re.sub(f' (بوده)(ایم|اید|اند|ای|است|ام)',r" \1"+HALF_SPACE+r"\2 ", text)
-        # text = re.sub(f' (بودیم|بودند|بودید|بودم|بودی|بود) ',r" \1 ", text)
-        # text = re.sub(f' (باشم|باشد|باشیم|باشید|باشند|باشی) ',r" \1 ", text)
-        # text = re.sub(f' (داریم|دارند|دارید|داری|دارد|دارم) ?',r" \1 ", text)
-        # text = re.sub(f' (داشتند|داشتید|داشتیم|داشتم|داشتی|داشت) ',r" \1 ", text)
-        # text = re.sub(f' (ن)?(خواهم|خواهی|خواهد|خواهیم|خواهید|خواهند) ?',r" \1\2 ", text)
-        text = self.remove_double_space(text)
+        # text = self.remove_double_space(text)
 
         for item in all_verbs:
             
@@ -75,23 +53,11 @@ class Verb_Processing:
                 continue
 
             # this will match all verbs even if there is no space between characters
-            fixed_verb = verb.replace(' ', f" *").replace(HALF_SPACE,f'{HALF_SPACE}*')
+            fixed_verb = verb.replace(" ", SPACE_OR_HALF)
 
-            regex = f"{WORD_BOUNDARY}({fixed_verb}){WORD_BOUNDARY}"
+            regex = f"{WORD_BOUNDARY}{fixed_verb}{WORD_BOUNDARY}"
             for item in re.finditer(regex, text):
                 start, end = item.start(),item.end()
-
-                # if text[start] == HALF_SPACE:
-                #     text = text[:start] + SPACE + text[start+1:]
-                # if text[end-1] == HALF_SPACE:
-                #     text = text[:end-1] + SPACE + text[end:]
-                
-                # result=re.sub(f'{SPACE}?(نمی|می){SPACE}?',
-                #     r" \1"+HALF_SPACE, text[start:end])
-                # text = self.apply_regex_result(text, start, end, result)
-
-                # result = re.sub(f' +(اید|ایم|اند|ام|ای|است)', HALF_SPACE+r"\1", text[start:end])
-                # text = self.apply_regex_result(text, start, end, result)
                 result = text[start:end]
 
                 if tag1 == 'PAST' and tag2 =='INDICATIVE':
@@ -103,15 +69,85 @@ class Verb_Processing:
                         result=re.sub(f'(نمی|می){SPACE_OR_HALF}(\w+)', r'\1'+HALF_SPACE+r'\2', text[start:end])
 
                     if tag3 == 'PROGRESSIVE':
+                    # داشتم نمی رفتم
                         result=re.sub(f'(داشت)(یم|ید|ند|ی|م)?{SPACE_OR_HALF}(نمی|می){SPACE_OR_HALF}(\w+)', r'\1\2 \3'+HALF_SPACE+r'\4', text[start:end])
                 
                     if tag3 == 'NARRATIVE':
+                    # رفته ام
                         result = re.sub(f'(\w+){SPACE_OR_HALF}(ایم|اید|اند|ام|ای|است)', r'\1'+HALF_SPACE+r'\2', text[start:end])
 
                     if tag3 == 'NARRATIVE_IMPERFECTIVE':
+                    # نمی رفته ام
                         result = re.sub(f'(نمی|می)(\w+)(ایم|اید|اند|ام|ای|است)', r'\1'+HALF_SPACE+r'\2'+HALF_SPACE+r'\3', text[start:end])
                         
+                    if tag3 == 'NARRATIVE_PROGRESSIVE':
+                    # داشته ام می رفته ام
+                        result = re.sub(f'(داشته){SPACE_OR_HALF}(ایم|اید|اند|ام|ای|است)?{SPACE_OR_HALF}(نمی|می){SPACE_OR_HALF}(\w+){SPACE_OR_HALF}(ایم|اید|اند|ام|ای|است)?',
+                        r'\1'+HALF_SPACE+r'\2 \3'+HALF_SPACE+r'\4'+HALF_SPACE+r'\5', text[start:end])
 
+                    if tag3 == 'PRECEDENT':
+                        # رفته بودم
+                        result = re.sub(f'(\w+){SPACE_OR_HALF}(بود)(ند|ید|یم|ی|م)?', r'\1'+HALF_SPACE+r'\2\3', text[start:end])
+
+                    if tag3 == 'PRECEDENT_IMPERFECTIVE':    
+                        # نمی رفته بودیم
+                        result = re.sub(f'(نمی|می){SPACE_OR_HALF}(\w+)(بود)(ند|ید|یم|ی|م)?', r'\1'+HALF_SPACE+r'\2'+HALF_SPACE+r'\3\4', text[start:end])
+
+                    if tag3 == 'PRECEDENT_PROGRESSIVE':
+                        # داشتم می رفته بودم
+                        result = re.sub(f'(داشت)(یم|ید|ند|ی|م)?{SPACE_OR_HALF}(نمی|می){SPACE_OR_HALF}(\w+){SPACE_OR_HALF}(بود)(ند|ید|یم|ی|م)?',
+                        r'\1\2 \3'+HALF_SPACE+r'\4'+HALF_SPACE+r'\5\6', text[start:end])
+
+                    if tag3 == 'PRECEDENT_NARRATIVE':
+                        # رفته بوده ام
+                        result = re.sub(f'(\w+){SPACE_OR_HALF}(بوده){SPACE_OR_HALF}(ایم|اید|اند|ام|ای|است)',
+                        r'\1'+HALF_SPACE+r'\2'+HALF_SPACE+r'\3', text[start:end])
+                    
+                    if tag3 == 'PRECEDENT_NARRATIVE_IMPERFECTIVE':
+                        # می رفته بوده ام
+                        result = re.sub(f'(نمی|می){SPACE_OR_HALF}(\w+){SPACE_OR_HALF}(بوده){SPACE_OR_HALF}(ایم|اید|اند|ام|ای|است)',
+                        r'\1'+HALF_SPACE+r'\2'+HALF_SPACE+r'\3'+HALF_SPACE+r'\4', text[start:end])
+
+                    if tag3 == 'PRECEDENT_NARRATIVE_PROGRESSIVE':
+                        # داشته ایم می رفته بوده ایم
+                        result = re.sub(f'(داشته){SPACE_OR_HALF}(ایم|اید|اند|ام|ای|است)?{SPACE_OR_HALF}(نمی|می){SPACE_OR_HALF}(\w+){SPACE_OR_HALF}(بوده){SPACE_OR_HALF}(ایم|اید|اند|ام|ای|است)?',
+                        r'\1'+HALF_SPACE+r'\2 \3'+HALF_SPACE+r'\4'+HALF_SPACE+r'\5'+HALF_SPACE+r'\6', text[start:end])
+
+                if tag1 == 'PRESENT' and tag2 == 'INDICATIVE':
+                    if tag3 =='SIMPLE':
+                        continue
+                    
+                    if tag3 == 'IMPERFECTIVE':
+                        # می روبم
+                        result=re.sub(f'(نمی|می){SPACE_OR_HALF}(\w+)', r'\1'+HALF_SPACE+r'\2', text[start:end])
+
+                    if tag3 == 'PROGRESSIVE':
+                        # دارد نمی روبد
+                        result = re.sub(f'(دار)(یم|ید|ند|ی|م|د){SPACE_OR_HALF}(نمی|می){SPACE_OR_HALF}(\w+)',
+                        r'\1\2 \3'+HALF_SPACE+r'\4', text[start:end])
+                    
+                if tag1 == 'FUTURE' and tag2 == 'INDICATIVE' and tag3 == 'SIMPLE':
+                    # خواهم رفت
+                    result = re.sub(f'(ن)?(خواه)(یم|ید|ند|ی|م|د){SPACE_OR_HALF}(\w+)', r'\1\2\3 \4', text[start:end])
+
+                if tag1 == 'PRESENT' and tag2 =='SUBJUNCTIVE' and tag3 == 'SIMPLE':
+                    # نرویم
+                    continue
+
+                if tag1 == 'PAST' and tag2 == 'SUBJUNCTIVE':
+                    if tag3 == 'NARRATIVE':
+                        # رفته باشم
+                        result = re.sub(f'(\w+){SPACE_OR_HALF}(باش)(یم|ید|ند|ی|م|د)', r'\1'+HALF_SPACE+r'\2\3', text[start:end])
+
+                    if tag3 == 'NARRATIVE_IMPERFECTIVE':
+                        # می رفته باشم
+                        result = re.sub(f'(نمی|می){SPACE_OR_HALF}(\w+){SPACE_OR_HALF}(باش)(یم|ید|ند|ی|م|د)',
+                        r'\1'+HALF_SPACE+r'\2'+HALF_SPACE+r'\3\4', text[start:end])
+
+                    if tag3 == 'PRECEDENT_NARRATIVE':
+                        # نرفته بوده باشد
+                        result = re.sub(f'(\w+){SPACE_OR_HALF}(بوده){SPACE_OR_HALF}(باش)(یم|ید|ند|ی|م|د)',
+                        r'\1'+HALF_SPACE+r'\2'+HALF_SPACE+r'\3\4', text[start:end])
 
                 text = text[:start] + result + text[end:]
 
