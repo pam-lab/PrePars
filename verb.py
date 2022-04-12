@@ -23,6 +23,7 @@ samples = """
 دارد نمی روبد
 خواهیمرفت رفتهباشد
 می رفته باشم نرفته بوده باشد
+میرفته بوده باشد
 """
 
 HALF_SPACE = '\u200c'
@@ -130,11 +131,11 @@ class Verb_Processing:
                     # خواهم رفت
                     result = re.sub(f'(ن)?(خواه)(یم|ید|ند|ی|م|د){SPACE_OR_HALF}(\w+)', r'\1\2\3 \4', text[start:end])
 
-                if tag1 == 'PRESENT' and tag2 =='SUBJUNCTIVE' and tag3 == 'SIMPLE':
+                if tag1 == 'PRESENT' and (tag2 =='SUBJUNCTIVE' or tag2 =='IMPERATIVE') and tag3 == 'SIMPLE':
                     # نرویم
                     continue
 
-                if tag1 == 'PAST' and tag2 == 'SUBJUNCTIVE':
+                if tag1 == 'PAST' and (tag2 == 'SUBJUNCTIVE' or tag2 =='IMPERATIVE'):
                     if tag3 == 'NARRATIVE':
                         # رفته باشم
                         result = re.sub(f'(\w+){SPACE_OR_HALF}(باش)(یم|ید|ند|ی|م|د)', r'\1'+HALF_SPACE+r'\2\3', text[start:end])
@@ -148,6 +149,12 @@ class Verb_Processing:
                         # نرفته بوده باشد
                         result = re.sub(f'(\w+){SPACE_OR_HALF}(بوده){SPACE_OR_HALF}(باش)(یم|ید|ند|ی|م|د)',
                         r'\1'+HALF_SPACE+r'\2'+HALF_SPACE+r'\3\4', text[start:end])
+
+                    if tag3 == 'PRECEDENT_NARRATIVE_IMPERFECTIVE':
+                        # می رفته بوده باشد
+                        result = re.sub(f'(نمی|می){SPACE_OR_HALF}(\w+){SPACE_OR_HALF}(بوده){SPACE_OR_HALF}(باش)(یم|ید|ند|ی|م|د)',
+                        r'\1'+HALF_SPACE+r'\2'+HALF_SPACE+r'\3'+HALF_SPACE+r'\4\5', text[start:end])
+                  
 
                 text = text[:start] + result + text[end:]
 
