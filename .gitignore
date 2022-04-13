@@ -1,5 +1,5 @@
 /venv/*
 /PVC/*
 output.txt
-main.ppy
+main.py
 !PVC/Data/TXT/all_verbs.txt
