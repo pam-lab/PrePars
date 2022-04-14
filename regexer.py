@@ -16,7 +16,7 @@ class Regexer:
 
 
 
-    def patternGenerator(self):
+    def sffixPatternGenerator(self):
         patterns = []
         for item in self.rules:
             space = '' if item[1] == 'a' else HALF_SPACE
