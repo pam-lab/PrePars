@@ -41,7 +41,7 @@ class Regexer:
             space = '' if item[1] == 'a' else HALF_SPACE
             if item[2] != '':
                 pattern = '(?<=('+item[0]+'))\s+(?=('+item[2]+'))'
-                replacement = '‌' if item[1] == 'a' else ''
+                replacement = HALF_SPACE if item[1] == 'a' else ''
                 patterns.append(tuple([re.compile(pattern), replacement]))
 
             pattern = r'( )'+'('+item[0]+')'+r'( )'
