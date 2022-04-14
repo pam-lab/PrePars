@@ -6,7 +6,14 @@ class Spacing:
 
     def suffixFixer(self, text):
 
-        patterns = self.regexer.patternGenerator()
+        patterns = self.regexer.sffixPatternGenerator()
+        for pat, rep in patterns:
+            text = pat.sub(rep, text)      
+        return text
+
+    def prefixFixer(self, text):
+
+        patterns = self.regexer.prefixPatternGenerator()
         for pat, rep in patterns:
             text = pat.sub(rep, text)      
         return text
