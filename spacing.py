@@ -59,7 +59,9 @@ class Spacing:
         # normalizing the text
         norm = Normalizer()
         text = norm.normalize(text)
-
+        
+        # fix unregular Words
+        text = self.unregularWords(text)
         # fix the Verbs
         verb=verbProcessing()
         text = verb.fixVerbs(text)
@@ -70,7 +72,6 @@ class Spacing:
         # fix the prefixes
         text = self.prefixFixer(text)
 
-        # fix unregular Words
-        text = self.unregularWords(text)
+
 
         return norm.normalize(text)
