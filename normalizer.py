@@ -46,6 +46,8 @@ class Normalizer:
              r'\1 \2'),  # put space after
             ('([^ ' + punc_before + '])([' + punc_before + '])',
              r'\1 \2'),  # put space before
+            ('(?<=.)\s+(?=[\(\{\[])', ''), # remove space before open symbols
+            ('(\)|\}|\]) ?', '\\1 ') # put space after close symbols
         ])
 
         for pattern, repl in punctuation_spacing_patterns:
@@ -53,3 +55,11 @@ class Normalizer:
         return text
 
     def makeTrans(self, A, B): return dict((ord(a), b) for a, b in zip(A, B))
+
+    def normalize(self, text):
+
+        # Refine chars in text(persianify numbers, remove e-erabs, etc.)
+        text = self.characterRefine(text)
+        # punctuation refinement
+        text = self.punctuationRefine(text)
+        return text
