@@ -32,10 +32,10 @@ SPACE_OR_HALF = f'[{HALF_SPACE}{SPACE}]*'
 WORD_BOUNDARY = f"[{SPACE}\W{HALF_SPACE}]"    
 
 
-class Verb_Processing:
+class verbProcessing:
         
     
-    def fix_verb_half_space(self, text):
+    def fixVerbs(self, text):
 
         all_verbs = Path.read_text(Path.cwd() / 'PVC/Data/TXT/all_verbs.txt').split('\n')
         # text = self.remove_double_space(text)
@@ -159,15 +159,3 @@ class Verb_Processing:
                 text = text[:start] + result + text[end:]
 
         return text
-
-def to_file(value):
-    with open('output.txt', 'a+') as f: 
-        f.write(str(value)+'\n')
-
-log_file = Path('output.txt')
-if log_file.exists():
-    log_file.unlink()
-
-verb_processing=Verb_Processing()
-samples_answers=verb_processing.fix_verb_half_space(samples)
-to_file(samples_answers)
