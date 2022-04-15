@@ -4,6 +4,21 @@ class Normalizer:
     def __init__(self) -> None:
         self.regexer = Regexer()
 
+
+    """
+    This method used to:
+        *   Remove Extra spaces 
+        *   Remove extra newlines
+        *   Remove Extra ZWNJs
+        *   Remove keshide, carriage
+        *   Translate Latin numbers to Persian numbers
+        *   Replace quotation with gyoome
+        *   Relace dot with momayez
+        *   Replace 3 dots
+        *   Remove FATHATAN, DAMMATAN, KASRATAN, FATHA, DAMMA, KASRA, SHADDA, SUKUN
+    @param text a pure text to refine
+    @return refined text as string
+    """
     def characterRefine(self, text):
 
         character_refinement_patterns = [
@@ -31,6 +46,14 @@ class Normalizer:
 
         return text
 
+    """
+    This method used to:
+        *   Remove space before and after quotation
+        *   Remove space before and after symbols
+        *   Put space after . and :
+    @param text a pure text to refine
+    @return refined text as string
+    """
     def punctuationRefine(self, text):
 
         punc_after, punc_before = r'\.:!،؛؟»\]\)\}', r'«\[\(\{'
@@ -53,9 +76,19 @@ class Normalizer:
         for pattern, repl in punctuation_spacing_patterns:
             text = pattern.sub(repl, text)
         return text
-
+    """
+    This method used to map chars to each other(zip). example: 1->۱
+    @param A source string
+    @param B destination string
+    @return a dictionary of mapped words
+    """
     def makeTrans(self, A, B): return dict((ord(a), b) for a, b in zip(A, B))
-
+    """
+    This method used to manage normalization operation
+    @param text unormaized text
+    @return normalized text
+    """
+    
     def normalize(self, text):
 
         # Refine chars in text(persianify numbers, remove e-erabs, etc.)
