@@ -1,5 +1,6 @@
 /venv/*
 /PVC/*
+/.vscode/
 output.txt
 main.py
 !PVC/Data/TXT/all_verbs.txt
