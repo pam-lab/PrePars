@@ -11,6 +11,8 @@ from normalizer import Normalizer
 class Spacing:
     def __init__(self) -> None:
         self.regexer = Regexer()
+
+
     """
     This method applies suffix rules on text
     @param text a pure text
@@ -22,6 +24,8 @@ class Spacing:
         for pat, rep in patterns:
             text = pat.sub(rep, text)      
         return text
+
+
     """
     This method applies prefix rules on text
     @param text a pure text
@@ -33,6 +37,7 @@ class Spacing:
         for pat, rep in patterns:
             text = pat.sub(rep, text)      
         return text
+
 
     """
     This method applies unregular words rules on text
@@ -49,6 +54,8 @@ class Spacing:
         text = pattern.sub(lambda m: rep[re.escape(m.group(0))], text)
 
         return text
+
+        
     """
     This method used to fix text(call all spacing methods)
     @param text a pure text

@@ -47,7 +47,7 @@ class Normalizer:
         return text
 
     """
-    This method used to:
+    This method is responsible to:
         *   Remove space before and after quotation
         *   Remove space before and after symbols
         *   Put space after . and :
@@ -76,13 +76,17 @@ class Normalizer:
         for pattern, repl in punctuation_spacing_patterns:
             text = pattern.sub(repl, text)
         return text
+
+
     """
-    This method used to map chars to each other(zip). example: 1->۱
+    This method is responsible to map chars to each other(zip). example: 1->۱
     @param A source string
     @param B destination string
     @return a dictionary of mapped words
     """
     def makeTrans(self, A, B): return dict((ord(a), b) for a, b in zip(A, B))
+
+
     """
     This method used to manage normalization operation
     @param text unormaized text
