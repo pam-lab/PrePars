@@ -1,6 +1,7 @@
 /venv/*
-/PVC/*
-/.vscode/
+src/prePars/PVC/*
+.vscode/*
 output.txt
 main.py
 !PVC/Data/TXT/all_verbs.txt
+.vscode/launch.json
