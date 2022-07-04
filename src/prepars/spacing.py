@@ -2,9 +2,9 @@ from pathlib import Path
 import json
 import re
 
-from verb import verbProcessing
-from regexer import Regexer
-from normalizer import Normalizer
+from .verb import verbProcessing
+from .regexer import Regexer
+from .normalizer import Normalizer
 """
     This class is responsible to impose compiled rules on text(suffix and prefix)
 """
