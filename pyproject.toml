@@ -4,20 +4,26 @@ build-backend = "hatchling.build"
 
 [project]
 name = "prepars"
-version = "0.0.2b"
+version = "0.0.3a"
 authors = [
   { name="Mahdi Akhi", email="mahdiakhy@gmail.com" },
   { name="Amir Pourmand", email="pourmand1376@gmail.com" },
   { name="Pouya Khani", email="pouya.khani11@gmail.com" }
 ]
 description = "The prePars is a Python package for NLP preprocessing on Persian Language."
+
 readme = "README.md"
 license = { file="LICENSE" }
 requires-python = ">=3.0"
+
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "regexr", 
 ]
 
 [project.urls]
