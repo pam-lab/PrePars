@@ -5,7 +5,6 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name= "prepars",
-    version= 0.1,
-    long_description="",
+    long_description=long_description,
     packages=setuptools.find_packages(),
 )
