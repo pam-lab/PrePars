@@ -19,3 +19,10 @@ publish_to_pypi_test: clean ## publish this package to pypi
 	python3 -m pip install --upgrade build twine
 	python3 -m build
 	python3 -m twine upload --repository testpypi dist/*
+
+PVC.zip: 
+	pip install gdown
+	gdown 1aIDGD3hHjDyWZ5i8vmgtMxRAzSxGFCWY 
+
+download_all_verbs: PVC.zip
+	./download.sh

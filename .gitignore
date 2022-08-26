@@ -1,8 +1,7 @@
 src/prePars/PVC/*
 .vscode/*
 output.txt
-!PVC/Data/TXT/all_verbs.txt
-
+*.zip
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
