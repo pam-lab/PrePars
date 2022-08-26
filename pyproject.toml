@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "prepars"
-version = "0.0.3"
+version = "0.0.3a"
 authors = [
   { name="Mahdi Akhi", email="mahdiakhy@gmail.com" },
   { name="Amir Pourmand", email="pourmand1376@gmail.com" },
@@ -29,3 +29,13 @@ dependencies = [
 [project.urls]
 "Homepage" = "https://github.com/pam-lab/PrePars/"
 "Bug Tracker" = "https://github.com/pam-lab/PrePars/issues"
+
+[tools.setuptools]
+include-package-data = true
+
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+mypkg = ["*.txt", "*.csv", "*.json"]
