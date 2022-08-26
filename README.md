@@ -2,6 +2,7 @@
 ![](https://img.shields.io/github/workflow/status/pam-lab/prepars/CodeQL?label=CodeQL)
 ![](https://img.shields.io/github/workflow/status/pam-lab/prepars/Upload%20Python%20Package?label=Publish%20to%20PyPI)
 ![](https://img.shields.io/github/workflow/status/pam-lab/prepars/Python%20Automatic%20Tests?label=Python%20Automatic%20Tests)
+[![Documentation Status](https://readthedocs.org/projects/prepars/badge/?version=latest)](https://prepars.readthedocs.io/en/latest/?badge=latest)
 ![](https://img.shields.io/github/issues/pam-lab/PrePars)
 ![](	https://img.shields.io/github/stars/pam-lab/PrePars)
 ![](https://img.shields.io/github/license/pam-lab/PrePars)
