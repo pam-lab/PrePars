@@ -26,3 +26,7 @@ PVC.zip:
 
 download_all_verbs: PVC.zip
 	./download.sh
+
+run_tests:
+	pip install .
+	pytest
