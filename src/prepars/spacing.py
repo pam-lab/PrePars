@@ -1,10 +1,11 @@
-from pathlib import Path
 import json
 import re
+from pathlib import Path
 
-from .verb import verbProcessing
-from .regexer import Regexer
 from .normalizer import Normalizer
+from .regexer import Regexer
+from .verb import verbProcessing
+
 """
     This class is responsible to impose compiled rules on text(suffix and prefix)
 """
@@ -12,45 +13,46 @@ from .normalizer import Normalizer
 
 ROOT = Path(__file__).parents[0]
 
+
 class Spacing:
     def __init__(self) -> None:
         self.regexer = Regexer()
-
 
     """
     This method applies suffix rules on text
     @param text a pure text
     @return processed text
     """
+
     def suffixFixer(self, text):
 
         patterns = self.regexer.sffixPatternGenerator()
         for pat, rep in patterns:
-            text = pat.sub(rep, text)      
+            text = pat.sub(rep, text)
         return text
-
 
     """
     This method applies prefix rules on text
     @param text a pure text
     @return processed text
     """
+
     def prefixFixer(self, text):
 
         patterns = self.regexer.prefixPatternGenerator()
         for pat, rep in patterns:
-            text = pat.sub(rep, text)      
+            text = pat.sub(rep, text)
         return text
-
 
     """
     This method applies unregular words rules on text
     @param text a pure text
     @return processed text
     """
+
     def unregularWords(self, text):
-        
-        file = open(ROOT/'PVC/Data/TXT/replacement.json', encoding="utf-8")
+
+        file = open(ROOT / "PVC/Data/TXT/replacement.json", encoding="utf-8")
         rep = json.load(file)
 
         rep = dict((k, v) for k, v in rep.items())
@@ -59,22 +61,22 @@ class Spacing:
 
         return text
 
-        
     """
     This method used to fix text(call all spacing methods)
     @param text a pure text
     @return processed text
     """
+
     def fix(self, text):
 
         # normalizing the text
         norm = Normalizer()
         text = norm.normalize(text)
-        
+
         # fix unregular Words
         text = self.unregularWords(text)
         # fix the Verbs
-        verb=verbProcessing()
+        verb = verbProcessing()
         text = verb.fixVerbs(text)
 
         # fix the suffixes
@@ -82,7 +84,5 @@ class Spacing:
 
         # fix the prefixes
         text = self.prefixFixer(text)
-
-
 
         return norm.normalize(text)
