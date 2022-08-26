@@ -10,7 +10,21 @@ WORD_BOUNDARY = f"[{SPACE}\W{HALF_SPACE}]"
 
 
 class verbProcessing:
+    def some_func(self, foo, bar, baz):
+        """Does some stuff
+
+        Args:
+            foo (int): The foo to bar
+            bar (str): Bar to use on foo
+            baz (float): Baz to frobnicate
+
+        Returns:
+            float: The frobnicated baz
+        """
+        pass
+
     def fixVerbs(self, text):
+        
         text = " " + text + " "
         all_verbs = Path.read_text(
             ROOT / "PVC/Data/TXT/all_verbs.txt", encoding="utf-8"

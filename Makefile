@@ -29,7 +29,14 @@ PVC.zip:
 download_all_verbs: PVC.zip
 	./download.sh
 
-run_tests:
+run_tests: ## run all tests
 	pip install pytest
 	pip install .
 	pytest
+
+build_docs: ## build complete sphinx documentation from source files
+	pip install sphinx
+	sphinx-apidoc -o docs/source src/prepars
+	cd docs
+	make clean
+	make html

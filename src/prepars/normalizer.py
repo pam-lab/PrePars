@@ -5,23 +5,21 @@ class Normalizer:
     def __init__(self) -> None:
         self.regexer = Regexer()
 
-    """
-    This method used to:
-        *   Remove Extra spaces 
-        *   Remove extra newlines
-        *   Remove Extra ZWNJs
-        *   Remove keshide, carriage
-        *   Translate Latin numbers to Persian numbers
-        *   Replace quotation with gyoome
-        *   Relace dot with momayez
-        *   Replace 3 dots
-        *   Remove FATHATAN, DAMMATAN, KASRATAN, FATHA, DAMMA, KASRA, SHADDA, SUKUN
-    @param text a pure text to refine
-    @return refined text as string
-    """
-
-    def characterRefine(self, text):
-
+  
+    def characterRefine(self, text:str) -> str: 
+        """This method used to:
+                *   Remove Extra spaces 
+                *   Remove extra newlines
+                *   Remove Extra ZWNJs
+                *   Remove keshide, carriage
+                *   Translate Latin numbers to Persian numbers
+                *   Replace quotation with gyoome
+                *   Relace dot with momayez
+                *   Replace 3 dots
+                *   Remove FATHATAN, DAMMATAN, KASRATAN, FATHA, DAMMA, KASRA, SHADDA, SUKUN
+            :param text: a pure text to refine
+            :return: refined text as string
+        """
         character_refinement_patterns = [
             (r" {2,}", " "),  # remove extra spaces
             (r"\n{3,}", "\n\n"),  # remove extra newlines
