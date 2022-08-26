@@ -18,6 +18,8 @@ from prepars.spacing import Spacing
 output =Spacing().fix('من مطالب را طوطی وار حفظ می کردم. ')
 ```
 
+You can see online demo for project [here](https://huggingface.co/spaces/pourmand1376/PrePars).
+
 Online documentation is also available [here](https://prepars.readthedocs.io/en/latest/).
 
 This project is a replacement for `Hazm` and `Parsivar`. 
