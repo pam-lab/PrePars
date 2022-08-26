@@ -5,7 +5,9 @@
 
 import os
 import sys
-sys.path.insert(0,os.path.abspath('../../src/prepars'))
+_PATH_HERE = os.path.abspath(os.path.dirname(__file__))
+_PATH_ROOT = os.path.realpath(os.path.join(_PATH_HERE, "..", ".."))
+sys.path.insert(0, os.path.abspath(_PATH_ROOT))
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information

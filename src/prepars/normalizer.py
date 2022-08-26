@@ -19,6 +19,7 @@ class Normalizer:
                 *   Remove FATHATAN, DAMMATAN, KASRATAN, FATHA, DAMMA, KASRA, SHADDA, SUKUN
             :param text: a pure text to refine
             :return: refined text as string
+            
         """
         character_refinement_patterns = [
             (r" {2,}", " "),  # remove extra spaces
