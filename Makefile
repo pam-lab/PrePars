@@ -38,6 +38,7 @@ build_docs: ## build complete sphinx documentation from source files
 	# https://brendanhasz.github.io/2019/01/05/sphinx.html
 	pip install sphinx
 	sphinx-apidoc -o docs/source src/prepars
+	pip install . --upgrade
 	cd docs
 	make clean
 	make html

@@ -7,7 +7,10 @@ class Normalizer:
 
   
     def characterRefine(self, text:str) -> str: 
-        """This method used to:
+        """
+        This method does some common text preprocessing rules.
+
+        This method is used to:
                 *   Remove Extra spaces 
                 *   Remove extra newlines
                 *   Remove Extra ZWNJs
@@ -17,9 +20,12 @@ class Normalizer:
                 *   Relace dot with momayez
                 *   Replace 3 dots
                 *   Remove FATHATAN, DAMMATAN, KASRATAN, FATHA, DAMMA, KASRA, SHADDA, SUKUN
-            :param text: a pure text to refine
-            :return: refined text as string
-            
+                
+        Args:
+            text (str): a pure text to refine
+        
+        Returns:
+            str: Refined text as string
         """
         character_refinement_patterns = [
             (r" {2,}", " "),  # remove extra spaces
@@ -48,17 +54,19 @@ class Normalizer:
 
         return text
 
-    """
-    This method is responsible to:
-        *   Remove space before and after quotation
-        *   Remove space before and after symbols
-        *   Put space after . and :
-    @param text a pure text to refine
-    @return refined text as string
-    """
 
     def punctuationRefine(self, text):
-
+        """
+        This method is responsible to:
+            *   Remove space before and after quotation
+            *   Remove space before and after symbols
+            *   Put space after . and :
+        
+        Args:
+            text (str): a pure text to refine
+        Returns:
+            text (str): refined text as string
+        """
         punc_after, punc_before = r"\.:!،؛؟»\]\)\}", r"«\[\(\{"
         punctuation_spacing_patterns = self.regexer.compilePatterns(
             [
@@ -88,24 +96,29 @@ class Normalizer:
             text = pattern.sub(repl, text)
         return text
 
-    """
-    This method is responsible to map chars to each other(zip). example: 1->۱
-    @param A source string
-    @param B destination string
-    @return a dictionary of mapped words
-    """
-
     def makeTrans(self, A, B):
+        """
+        This method is responsible to map chars to each other(zip). example: 1->۱
+
+        Args:
+            A (str): source string
+            B (str): destination string
+        Returns:
+            str:  a dictionary of mapped words
+        """
         return dict((ord(a), b) for a, b in zip(A, B))
 
-    """
-    This method used to manage normalization operation
-    @param text unnormalized text
-    @return normalized text
-    """
+   
 
     def normalize(self, text):
+        """
+        This method used to manage normalization operation
 
+        Args:
+            text (str): unnormalized text
+        Returns:
+            str: normalized text
+        """
         # Refine chars in text(persianify numbers, remove e-erabs, etc.)
         text = self.characterRefine(text)
         # punctuation refinement

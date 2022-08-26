@@ -4,7 +4,8 @@ from pathlib import Path
 
 """
     This class used to manage rules and regex 
-    """
+"""
+
 HALF_SPACE = "‌"
 
 ROOT = Path(__file__).parents[0]
@@ -19,23 +20,30 @@ class Regexer:
         file = open(ROOT / "PVC/Data/TXT/prefix.txt", encoding="utf-8")
         self.prefix = csv.reader(file)
 
-    """
-    This method take an array of tuples (pattern, replacement) and compile them
-    @param patterns array of tuples (pattern, replacement)
-    @param self python class
-    @return an array of compiled regex patterns
-    """
+    
 
     def compilePatterns(self, patterns):
+        """
+        This method take an array of tuples (pattern, replacement) and compile them
+        
+        Args:
+            patterns: array of tuples (pattern, replacement)
+        
+        Returns:
+            an array of compiled regex patterns
+        """
         return [(re.compile(pattern), repl) for pattern, repl in patterns]
 
-    """
-    This method fetchs all suffix pattern from rule file and generate regex patterns
-    @param self python class
-    @return an array of regex patterns[(pattern, replacement)]
-    """
 
     def sffixPatternGenerator(self):
+        """
+        This method fetchs all suffix pattern from rule file and generate regex patterns
+
+        Args:
+            self: python class
+        Returns: 
+            an array of regex patterns[(pattern, replacement)]
+        """
         patterns = []
         for item in self.suffix:
             # specify which space should be used. h: half space, a: affix
@@ -52,13 +60,17 @@ class Regexer:
 
         return patterns
 
-    """
-    This method fetchs all affix pattern from rule file and generate regex patterns
-    @param self python class
-    @return an array of regex patterns[(pattern, replacement)]
-    """
+   
 
     def prefixPatternGenerator(self):
+        """
+        This method fetchs all affix pattern from rule file and generate regex patterns
+
+        Args: 
+            self: python class
+        Returns: 
+            an array of regex patterns[(pattern, replacement)]
+        """
         patterns = []
         for item in self.prefix:
             # specify which space should be used. h: half space, a: affix

@@ -18,40 +18,48 @@ class Spacing:
     def __init__(self) -> None:
         self.regexer = Regexer()
 
-    """
-    This method applies suffix rules on text
-    @param text a pure text
-    @return processed text
-    """
+    
 
     def suffixFixer(self, text):
+        """
+        This method applies suffix rules on text
 
+        Args:
+            text: a pure text
+        Returns:
+            processed text
+        """
         patterns = self.regexer.sffixPatternGenerator()
         for pat, rep in patterns:
             text = pat.sub(rep, text)
         return text
 
-    """
-    This method applies prefix rules on text
-    @param text a pure text
-    @return processed text
-    """
 
     def prefixFixer(self, text):
+        """
+        This method applies prefix rules on text
 
+        Args:
+            text:  a pure text
+        Returns:
+            processed text
+        """
         patterns = self.regexer.prefixPatternGenerator()
         for pat, rep in patterns:
             text = pat.sub(rep, text)
         return text
 
-    """
-    This method applies unregular words rules on text
-    @param text a pure text
-    @return processed text
-    """
+   
 
     def unregularWords(self, text):
+        """
+        This method applies unregular words rules on text
 
+        Args:
+            text: a pure text
+        Returns:
+            processed text
+        """
         file = open(ROOT / "PVC/Data/TXT/replacement.json", encoding="utf-8")
         rep = json.load(file)
 
@@ -61,14 +69,17 @@ class Spacing:
 
         return text
 
-    """
-    This method used to fix text(call all spacing methods)
-    @param text a pure text
-    @return processed text
-    """
+    
 
     def fix(self, text):
+        """
+        This method used to fix text(call all spacing methods)
 
+        Args:
+            text: a pure text
+        Returns:
+            processed text
+        """
         # normalizing the text
         norm = Normalizer()
         text = norm.normalize(text)

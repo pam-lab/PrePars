@@ -7,12 +7,14 @@ import os
 import sys
 _PATH_HERE = os.path.abspath(os.path.dirname(__file__))
 _PATH_ROOT = os.path.realpath(os.path.join(_PATH_HERE, "..", ".."))
+print(sys.path)
 sys.path.insert(0, os.path.abspath(_PATH_ROOT))
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Prepars'
+
+project = 'prepars'
 copyright = '2022, Mahdi Akhi, Pouya Khani, Amir Pourmand'
 author = 'Mahdi Akhi, Pouya Khani, Amir Pourmand'
 release = '0.0.4'
@@ -32,7 +34,7 @@ extensions = [
     'sphinx.ext.intersphinx',
 ]
 
-napoleon_google_docstring = False
+napoleon_google_docstring = True
 napoleon_numpy_docstring = True
 
 templates_path = ['_templates']
