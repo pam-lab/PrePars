@@ -35,6 +35,7 @@ run_tests: ## run all tests
 	pytest
 
 build_docs: ## build complete sphinx documentation from source files
+	# https://brendanhasz.github.io/2019/01/05/sphinx.html
 	pip install sphinx
 	sphinx-apidoc -o docs/source src/prepars
 	cd docs
