@@ -16,7 +16,7 @@ mypkg = ["**/*.txt", "**/*.csv", "**/*.json"]
 
 [project]
 name = "prepars"
-version = "0.0.3.2"
+version = "0.0.4"
 authors = [
   { name="Mahdi Akhi", email="mahdiakhy@gmail.com" },
   { name="Amir Pourmand", email="pourmand1376@gmail.com" },
