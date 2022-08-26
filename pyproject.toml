@@ -13,6 +13,8 @@ where = ["src"]
 [tool.setuptools.package-data]
 mypkg = ["**/*.txt", "**/*.csv", "**/*.json"]
 
+[tool.setuptools_scm]
+
 [project]
 name = "prepars"
 version = "0.0.3.2"
