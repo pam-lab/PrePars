@@ -8,7 +8,8 @@ help:
 
 clean: ## cleans generated files
 	rm -rf src/prepars.egg-info
-	rm -rf dist/*
+	rm -rf dist/
+	rm -rf .pytest_cache/
 
 publish_to_pip: clean ## publish this package to pip
 	python3 -m pip install --upgrade build twine
@@ -28,5 +29,6 @@ download_all_verbs: PVC.zip
 	./download.sh
 
 run_tests:
+	pip install pytest
 	pip install .
 	pytest
