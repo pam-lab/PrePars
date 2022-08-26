@@ -14,4 +14,4 @@ publish_to_pip: ## publish this package to pip
 publish_to_pypi_test: ## publish this package to pypi
 	python3 -m pip install --upgrade build twine
 	python3 -m build
-	python3 -m twine upload  --skip-existing --repository testpypi dist/*
+	python3 -m twine upload --repository testpypi dist/*
