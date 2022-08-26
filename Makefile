@@ -10,6 +10,7 @@ clean: ## cleans generated files
 	rm -rf src/prepars.egg-info
 	rm -rf dist/
 	rm -rf .pytest_cache/
+	rm -rf tests/__pycache__
 
 publish_to_pip: clean ## publish this package to pip
 	python3 -m pip install --upgrade build twine
