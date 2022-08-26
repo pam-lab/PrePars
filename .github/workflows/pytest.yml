@@ -12,4 +12,3 @@ jobs:
     steps:
       - name: GitHub Action for pytest
         uses: cclauss/GitHub-Action-for-pytest@0.5.0
-        run: make run_tests
