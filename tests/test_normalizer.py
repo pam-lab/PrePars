@@ -1,11 +1,26 @@
-from prepars import normalizer
+from curses import halfdelay
+from prepars.normalizer import Normalizer
 import pytest
 
-
-@pytest.mark.parametrize("input, expected", [("  ", " "), ("\n\n", "\n")])
-def remote_extra_spaces(input, expected):
-    assert normalizer().characterRefine(input) == expected
+HALF_SPACE = "\u200c"
 
 
-def test_always_fail():
-    assert True
+@pytest.mark.parametrize(
+    "input, expected",
+    [
+        ("\n\n\n","\n\n"),
+        ("  "," "),
+        ("   "," "),
+        (HALF_SPACE+HALF_SPACE,HALF_SPACE),
+        ("1234567890","۱۲۳۴۵۶۷۸۹۰"),
+        ("123.123","۱۲۳٫۱۲۳"),
+        ("مهدي","مهدی"),
+        ("مردك","مردک"),
+        ("مْحٌمْدٌْاْمٌیٍر","محمدامیر"),
+    ],
+)
+def test_characterRefine(input, expected):
+    assert Normalizer().characterRefine(input) == expected
+    assert Normalizer().normalize(input) == expected
+
+

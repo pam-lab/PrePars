@@ -101,7 +101,7 @@ class Normalizer:
 
     """
     This method used to manage normalization operation
-    @param text unormaized text
+    @param text unnormalized text
     @return normalized text
     """
 
