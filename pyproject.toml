@@ -1,10 +1,21 @@
+# https://setuptools.pypa.io/en/latest/build_meta.html
+
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools>=45", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[tools.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+mypkg = ["**/*.txt", "**/*.csv", "**/*.json"]
 
 [project]
 name = "prepars"
-version = "0.0.3a"
+version = "0.0.3.1"
 authors = [
   { name="Mahdi Akhi", email="mahdiakhy@gmail.com" },
   { name="Amir Pourmand", email="pourmand1376@gmail.com" },
@@ -30,12 +41,3 @@ dependencies = [
 "Homepage" = "https://github.com/pam-lab/PrePars/"
 "Bug Tracker" = "https://github.com/pam-lab/PrePars/issues"
 
-[tools.setuptools]
-include-package-data = true
-
-
-[tool.setuptools.packages.find]
-where = ["src"]
-
-[tool.setuptools.package-data]
-mypkg = ["*.txt", "*.csv", "*.json"]

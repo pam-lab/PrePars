@@ -6,15 +6,17 @@ from pathlib import Path
     This class used to manage rules and regex 
     """
 HALF_SPACE = '‌'
-    
+
+ROOT = Path(__file__).parents[0]
+
 class Regexer:
 
     def __init__(self) -> None:
 
-        file = open(Path.cwd()/'PVC/Data/TXT/suffix.csv', encoding="utf-8")
+        file = open(ROOT / 'PVC/Data/TXT/suffix.csv', encoding="utf-8")
         self.suffix = csv.reader(file)
 
-        file = open(Path.cwd()/'PVC/Data/TXT/prefix.txt', encoding="utf-8")
+        file = open(ROOT / 'PVC/Data/TXT/prefix.txt', encoding="utf-8")
         self.prefix = csv.reader(file)
 
 

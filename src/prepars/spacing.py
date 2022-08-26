@@ -8,6 +8,10 @@ from .normalizer import Normalizer
 """
     This class is responsible to impose compiled rules on text(suffix and prefix)
 """
+
+
+ROOT = Path(__file__).parents[0]
+
 class Spacing:
     def __init__(self) -> None:
         self.regexer = Regexer()
@@ -46,7 +50,7 @@ class Spacing:
     """
     def unregularWords(self, text):
         
-        file = open(Path.cwd()/'PVC/Data/TXT/replacement.json', encoding="utf-8")
+        file = open(ROOT/'PVC/Data/TXT/replacement.json', encoding="utf-8")
         rep = json.load(file)
 
         rep = dict((k, v) for k, v in rep.items())
