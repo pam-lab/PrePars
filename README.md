@@ -14,4 +14,4 @@ https://pypi.org/project/prepars/
 
 This project is a replacement for `Hazm` and `Parsivar`. 
 
-This will push the package to pypi_test whenever you do a commit. It will also push the package whenever you tag a commit.
+This will build and push the package to `PyPi` whenever you add a tag starting with `v` to a commit. 
