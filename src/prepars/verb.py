@@ -1,33 +1,7 @@
 import re
-from dataclasses import replace
 from pathlib import Path
 
 ROOT = Path(__file__).parents[0]
-
-
-samples = """
-میخورد
-می رفت
-میرفت
-نمیرفت داشتندمیرفتند
-میآجیدم داشتیممیخوردیم
-داشتیمیخوردی آراسته است نمیرفتهاست
-نرفتهاند آراستهاست
-داشتهاست میآراستهاست داشتهاممیرفتهام
-داشتهمیرفته نمیآراسته بوده ام
-می آزرده بوده اند خواهمخورد
-رفتهبودم نمیرفتهبودیم
-داشتممیرفتهبودم
-داشتم میرفته بودم
-رفتهبودهام
-میرفتهبودهام
-داشتهایم می رفته بودهایم
-نمیروبم میروبم نمی روبم
-دارد نمی روبد
-خواهیمرفت رفتهباشد
-می رفته باشم نرفته بوده باشد
-میرفته بوده باشد
-"""
 
 HALF_SPACE = "\u200c"
 SPACE = " "
@@ -37,7 +11,7 @@ WORD_BOUNDARY = f"[{SPACE}\W{HALF_SPACE}]"
 
 class verbProcessing:
     def fixVerbs(self, text):
-
+        text = " " + text + " "
         all_verbs = Path.read_text(
             ROOT / "PVC/Data/TXT/all_verbs.txt", encoding="utf-8"
         ).split("\n")
@@ -255,4 +229,4 @@ class verbProcessing:
 
                 text = text[:start] + result + text[end:]
 
-        return text
+        return text.strip()
